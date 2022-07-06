@@ -30,6 +30,7 @@ chmod +x ~/convert/rhino-deinst/rhino-deinst
 mv ~/convert/rhino-deinst/rhino-deinst /usr/bin
 # Update the default mirrors
 source ~/.sources.sh
+rm ~/.sources.sh
 cd ~
 rm -rf ~/convert
 # Tell the user that the script has completed
