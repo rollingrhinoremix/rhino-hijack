@@ -10,7 +10,7 @@ sudo apt-get autoremove -y
 # Move all required assets to the correct directories
 mv ~/convert/assets/rolling_rhino.png /usr/share/backgrounds
 mv ~/convert/assets/rolling_rhino-dark.png /usr/share/backgrounds
-mv ~/convert/assets/.bash_aliases /etc/skel
+cp ~/convert/assets/.bash_aliases /etc/skel
 rm -rf ~/.bash_aliases 
 rm -rf ~/.bashrc
 mv ~/convert/assets/.bash_aliases ~
