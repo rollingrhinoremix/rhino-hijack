@@ -43,18 +43,22 @@ if [[ $confirmation =~ ^[Yy]$ ]]; then
     wget -q --show-progress --progress=bar:force https://kernel.ubuntu.com/~kernel-ppa/mainline/v5.18.13/amd64/linux-image-unsigned-5.18.13-051813-generic_5.18.13-051813.202207220940_amd64.deb
     wget -q --show-progress --progress=bar:force https://kernel.ubuntu.com/~kernel-ppa/mainline/v5.18.13/amd64/linux-modules-5.18.13-051813-generic_5.18.13-051813.202207220940_amd64.deb
     sudo apt install ./*.deb -y
-    # Clean up system files
-    sudo apt-get clean -y
-    sudo sed -i 's/kinetic/devel/g' /etc/apt/sources.list
-    sudo sed -i 's/kinetic/devel/g' /etc/lsb-release
-    sudo sed -i 's/kinetic/devel/g' /usr/lib/os-release
-    # So much release info that are mostly same!
-    sudo sed -i 's/PRETTY_NAME="Ubuntu Kinetic Kudu (development branch)"/PRETTY_NAME="Rolling Rhino Remix"/g' /etc/os-release
-    sudo sed -i 's%HOME_URL="https://www.ubuntu.com/"%HOME_URL="https://www.rollingrhino.org"%g' /etc/os-release
-    sudo apt-get --allow-releaseinfo-change update -y
-    sudo apt-get --allow-releaseinfo-change dist-upgrade -y
-    sudo apt-get autopurge -y
-    sudo apt-get clean -y
+    # Convert sources to devel
+    sudo echo "deb http://gb.archive.ubuntu.com/ubuntu/ devel main restricted" > /etc/apt/sources.list
+
+    sudo cat >> /etc/apt/sources.list << REPOS
+    deb mirror://mirrors.ubuntu.com/mirrors.txt devel-updates main restricted
+    deb mirror://mirrors.ubuntu.com/mirrors.txt devel universe
+    deb mirror://mirrors.ubuntu.com/mirrors.txt devel-updates universe
+    deb mirror://mirrors.ubuntu.com/mirrors.txt devel multiverse
+    deb mirror://mirrors.ubuntu.com/mirrors.txt devel-updates multiverse
+    deb mirror://mirrors.ubuntu.com/mirrors.txt devel-backports main restricted universe multiverse
+    deb mirror://mirrors.ubuntu.com/mirrors.txt devel-security main restricted
+    deb mirror://mirrors.ubuntu.com/mirrors.txt devel-security universe
+    deb mirror://mirrors.ubuntu.com/mirrors.txt devel-security multiverse
+    REPOS
+
+
     # Perform Devel system upgrade
     sudo apt-get update -y 
     sudo apt-get upgrade -y 
